@@ -11,27 +11,18 @@
 	$userPic = "drico.png";
 	$skinName ="skin-1";
 	
-		
 	
-	
-	
-	
-	//Load header HTML
-	loadHeadHtml();	
-	loadNavBarLayout($skinName, $userName, $userPic );
-	loadSideBarLayout();
+	//Load HYML Layouts in this order: Header, NavBar, SideBar and Footer
+	displayHeadLayout();	
+	displayNavBarLayout($skinName, $userName, $userPic );
+	displaySideBarLayout();
 	
 		///Contenido de la pagina
-		echo "Pagina index add anything!!!";
+		echo "Pagina Web Beats";
 					
 	
 	
-	loadFooterLayout();
-	
-	
-	
-	
-	
+	displayFooterLayout();
 	
 	
 	

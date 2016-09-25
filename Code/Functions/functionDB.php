@@ -15,10 +15,13 @@ function connIntranetDB(){
     $hostname='localhost';
     $username='root';
     $password='';
-    $dbname='Intranet';
+    $dbname='webbeats';
 	
-	//Getting connection
-	$connection = mysqli_connect("localhost","root","","intranet") OR DIE('Unable to connect to database! Please try again later.');
+	//Getting connection	
+        $connection = mysqli_connect($hostname,$username,$password,$dbname) OR DIE('Unable to connect to database! Please try again later.');
+        
+        //Optional "manual connection for DBTesting
+        //$connection = mysqli_connect("localhost","root","","intranet") OR DIE('Unable to connect to database! Please try again later.');
 	
 	//Return connection
 	return $connection;
@@ -31,7 +34,7 @@ function connIntranetDB(){
 //Date:			25/Julio/2016
 //
 //Parameter:	_userName: string with the userName to be validated
-//				_Password: string with the password to be validated
+//		_Password: string with the password to be validated
 //Return:		Return an <EMPTY> string if user WAS found, else and errorMsg
 //
 //Revision:	1.0 (25/Julio/2016) -- Creation function
@@ -59,7 +62,7 @@ function validateLogin($_userName, $_Password){
 		$conn = connIntranetDB();
 				
 		//Query for check if userName and Password exists!
-		$sql = "Select UserName, Password FROM it_catalog_users WHERE UserName='" . $_userName . "' AND Password='" . $_Password . "'";
+		$sql = "Select UserName, Password FROM cat_users WHERE UserName='" . $_userName . "' AND Password='" . $_Password . "'";
 		$result = mysqli_query($conn, $sql);		
 		$hits = mysqli_affected_rows($conn);
 		
@@ -88,7 +91,7 @@ function validateLogin($_userName, $_Password){
 
 
 //Function Name: displayLoginPage($_displayError)
-//Description:  Function that display login Web Page
+//Description:  Procedure that display login Web Page
 //Author:		Dario Rico Olivares
 //Date:			30/Julio/2016
 //
@@ -106,7 +109,7 @@ function displayLoginPage($_displayError){
 					echo "<div class='center'>";
 						echo "<h1>";
 							echo "<span class='white' id='id-text2'>  INTRANET </span>";
-							echo "<img src='../assets/images/logoTCL2.png' class='msg-photo' width='75' height='50' />";
+							echo "<img src='/webBeats/assets/images/logoTCL2.png' class='msg-photo' width='75' height='50' />";
 						echo "</h1>";
 						echo "<h4 class='blue' id='id-company-text'>&copy TCL Moka Manufacturing S.A de C.V.</h4>";
 					echo "</div>";
@@ -338,16 +341,19 @@ echo "</div><!-- /.main-container -->";
 	
 	
 
-//Function Name: loadHeadHtml()
-//Description:  Function that display HTML head of web template
+//Function Name: displayHeadLayout()
+//Description:  Procedure that display HTML head of web template
 //Author:		Dario Rico Olivares
 //Date:			30/Julio/2016
 //
 //Parameter:	None
-//Return:		None
+//Return:	None
+//
+//Important Notes:     This function OPEN div main-Container tag of HTML template
+//                     so MUST be used with loadFooterLayout() function wich close tags
 //
 //Revision:	1.0 (30/Julio/2016) -- Creation function
-function loadHeadHtml(){
+function displayHeadLayout(){
 	
 	echo "<head>";		
 	echo "<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1' />";
@@ -356,36 +362,36 @@ function loadHeadHtml(){
 	echo "<meta name='description' content='' />";
 	echo "<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0' />";
 	echo "<!-- bootstrap & fontawesome -->";
-	echo "<link rel='stylesheet' href='../assets/css/bootstrap.min.css' />";
-	echo "<link rel='stylesheet' href='../assets/css/font-awesome.min.css' />";
+	echo "<link rel='stylesheet' href='/webBeats/assets/css/bootstrap.min.css' />";
+	echo "<link rel='stylesheet' href='/webBeats/assets/css/font-awesome.min.css' />";
 	echo "<!-- page specific plugin styles -->";
 	echo "<!-- text fonts -->";
-	echo "<link rel='stylesheet' href='../assets/css/ace-fonts.css' />";
+	echo "<link rel='stylesheet' href='/webBeats/assets/css/ace-fonts.css' />";
 	echo "<!-- ace styles -->";
-	echo "<link rel='stylesheet' href='../assets/css/ace.min.css' />";
+	echo "<link rel='stylesheet' href='/webBeats/assets/css/ace.min.css' />";
 	echo "<!--[if lte IE 9]>";
-	echo "         <link rel='stylesheet' href='../assets/css/ace-part2.min.css' />";
+	echo "         <link rel='stylesheet' href='/webBeats/assets/css/ace-part2.min.css' />";
 	echo "<![endif]-->";
-	echo "<link rel='stylesheet' href='../assets/css/ace-skins.min.css' />";
-	echo "<link rel='stylesheet' href='../assets/css/ace-rtl.min.css' />";
+	echo "<link rel='stylesheet' href='/webBeats/assets/css/ace-skins.min.css' />";
+	echo "<link rel='stylesheet' href='/webBeats/assets/css/ace-rtl.min.css' />";
 	echo "<!--[if lte IE 9]>";
-	echo "        <link rel='stylesheet' href='../assets/css/ace-ie.min.css' />";
+	echo "        <link rel='stylesheet' href='/webBeats/assets/css/ace-ie.min.css' />";
 	echo "<![endif]-->";
 	echo "<!-- inline styles related to this page -->";
 	echo "<!-- ace settings handler -->";
-	echo "<script src='../assets/js/ace-extra.min.js'></script>";
+	echo "<script src='/webBeats/assets/js/ace-extra.min.js'></script>";
 	echo "<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->";
 	echo "<!--[if lte IE 8]>";
-	echo "     <script src='../assets/js/html5shiv.js'></script>";
-	echo "     <script src='../assets/js/respond.min.js'></script>";		
+	echo "     <script src='/webBeats/assets/js/html5shiv.js'></script>";
+	echo "     <script src='/webBeats/assets/js/respond.min.js'></script>";		
 	echo "<![endif]-->";			
 	echo "</head>";
 	
 }
 
 
-//Function Name: loadNavBarLayout()
-//Description:  Function that display NavBar Layout template
+//Function Name: displayNavBarLayout()
+//Description:  Procedure that display NavBar Layout template
 //Author:		Dario Rico Olivares
 //Date:			30/Julio/2016
 //
@@ -398,7 +404,7 @@ function loadHeadHtml(){
 //
 //
 //Revision:	1.0 (30/Julio/2016) -- Creation function
-function loadNavBarLayout($_skinName, $_userName, $_userPic){
+function displayNavBarLayout($_skinName, $_userName, $_userPic){
 	
 	
 //Start BODY TAG
@@ -435,7 +441,7 @@ echo "<body class=" . $_skinName . ">";
 				//<!-- #section:basics/navbar.layout.brand -->
 				echo "<a href='#' class='navbar-brand'>";
 				
-				echo "		<img src='../assets/images/logoTCL2.png' class='msg-photo' width='43' height='28' />";
+				echo "		<img src='/webBeats/assets/images/logoTCL2.png' class='msg-photo' width='43' height='28' />";
 				echo "		<small>  TMSA Intranet </small>";
 				
 				echo "</a>";
@@ -457,7 +463,7 @@ echo "<body class=" . $_skinName . ">";
 					echo "<!-- #section:basics/navbar.user_menu -->";
 					echo "<li class='light-blue'>";
 						echo "<a data-toggle='dropdown' href='#' class='dropdown-toggle'>";													
-							$_userPic = "../assets/avatars/" . $_userPic;
+							$_userPic = "/webBeats/assets/avatars/" . $_userPic;
 							echo "<img class='nav-user-photo' src=" . $_userPic . " alt= " . $_userName ."''s Photo' />";
 							echo "<span class='user-info'> ";
 								echo "<small>Welcome,</small>";
@@ -496,21 +502,19 @@ echo "<body class=" . $_skinName . ">";
 }
 
 
-//Function Name: loadSideBarLayout()
-//Description:  Function that display SideBar Layout template
+//Function Name: displaySideBarLayout()
+//Description:  Procedure that display SideBar Layout template
 //Author:		Dario Rico Olivares
 //Date:			30/Julio/2016
 //
-//Parameter:	skinName:	String with the skin of web template
-//				userName:	String with user Name
-//				userPic:	String with user Picture
-//Return:		None
+//Parameter:	None
+//Return:	None
 //
-//Important Notes:		This function open div main-Container tag of HTML template
+//Important Notes:  This function open div main-Container tag of HTML template
 //
 //
 //Revision:	1.0 (30/Julio/2016) -- Creation function
-function loadSideBarLayout(){
+function displaySideBarLayout(){
 	require_once("../Functions/functionDB.php");
 	
 	
@@ -555,7 +559,8 @@ function loadSideBarLayout(){
 			//<!--Start:#2b section:SideBar-NAVLIST -->				
 			echo "<ul class='nav nav-list'>";
 				
-				 readMainMenu();
+                                //Display main menus (gettting options from database)
+				 displaySideBarMainMenu();
 				 
 				 
 			echo "</ul>";
@@ -598,18 +603,22 @@ function loadSideBarLayout(){
 		
 }
 
-function loadIndexPage(){
-	
-		echo "Pagina index add anything!!!";
-					
 
-		
-	
-	
-	
-}
 
-function loadFooterLayout(){
+//Function Name: displayFooterLayout()
+//Description:  Procedure that display Footer Layout template
+//Author:		Dario Rico Olivares
+//Date:			30/Julio/2016
+//
+//Parameter:    None
+//Return:	None
+//
+//Important Notes:	This function close div main-Container tag of HTML template
+//                     so MUST be used with loadNavBarLayout() function wich open tags
+//
+//
+//Revision:	1.0 (30/Julio/2016) -- Creation function
+function displayFooterLayout(){
 	
 	
 						echo "</div><!-- /.col -->";
@@ -629,31 +638,31 @@ function loadFooterLayout(){
 	echo"<!-- basic scripts -->";
 	echo"<!--[if !IE]> -->";
 	echo"<script type='text/javascript'>";
-		echo"window.jQuery || document.write(\"<script src='../assets/js/jquery.min.js'>\"+\"<\"+\"/script>\");";
+		echo"window.jQuery || document.write(\"<script src='/webBeats/assets/js/jquery.min.js'>\"+\"<\"+\"/script>\");";
 	echo"</script>";		
 	echo"<!-- <![endif]-->";		
 
 	echo"<!--[if IE]>";
 	echo"<script type='text/javascript'>";
-		echo"window.jQuery || document.write(\"<script src='../assets/js/jquery.min.js'>\"+\"<\"+\"/script>\");";
+		echo"window.jQuery || document.write(\"<script src='/webBeats/assets/js/jquery.min.js'>\"+\"<\"+\"/script>\");";
 	echo"</script>";
 	echo"<![endif]-->";
 
 	echo"<script type='text/javascript'>";		
-		echo"if('ontouchstart' in document.documentElement) document.write(\"<script src='../assets/js/jquery.mobile.custom.min.js'>\"+\"<\"+\"/script>\");";
+		echo"if('ontouchstart' in document.documentElement) document.write(\"<script src='/webBeats/assets/js/jquery.mobile.custom.min.js'>\"+\"<\"+\"/script>\");";
 	echo"</script>";
-	echo"<script src='../assets/js/bootstrap.min.js'></script>";
+	echo"<script src='/webBeats/assets/js/bootstrap.min.js'></script>";
 
 	echo"<!-- page specific plugin scripts -->";
 	echo"<!-- ace scripts -->";
-	echo"<script src='../assets/js/ace-elements.min.js'></script>";		
-	echo"<script src='../assets/js/ace.min.js'></script>";
+	echo"<script src='/webBeats/assets/js/ace-elements.min.js'></script>";		
+	echo"<script src='/webBeats/assets/js/ace.min.js'></script>";
 
 	echo"<!-- inline scripts related to this page -->";
-	echo"<link rel='stylesheet' href='../assets/css/ace.onpage-help.css' />";
+	echo"<link rel='stylesheet' href='/webBeats/assets/css/ace.onpage-help.css' />";
 	echo"<link rel='stylesheet' href='../docs/assets/js/themes/sunburst.css' />";
 	echo"<script type='text/javascript'> ace.vars['base'] = '..'; </script>";
-	echo"<script src='../assets/js/ace/ace.onpage-help.js'></script>";		
+	echo"<script src='/webBeats/assets/js/ace/ace.onpage-help.js'></script>";		
 	echo"<script src='../docs/assets/js/rainbow.js'></script>";		
 	echo"<script src='../docs/assets/js/language/generic.js'></script>";
 	echo"<script src='../docs/assets/js/language/html.js'></script>";
@@ -666,33 +675,48 @@ echo "</body>";
 	
 }
 
-function readMainMenu(){	
-	//Variable declaration
-	$i=$j=$actualLevel=$nextLevel=$differenceLevel=$totalRows=$totalRows2=$typeTag=0;
+
+//Function Name: displaySideBarMainMenu()
+//Description:  Procedure that display the main menu of Side Bar layout.
+//              This procedure read the webMenus from database and create the
+//              menu of web page according to template (see html files in assets folder)
+//Author:		Dario Rico Olivares
+//Date:			30/Julio/2016
+//
+//Parameter:    None
+//Return:	None
+//
+//Important Notes:	This function close div main-Container tag of HTML template
+//                     so MUST be used with loadNavBarLayout() function wich open tags
+//
+//
+//Revision:	1.0 (30/Julio/2016) -- Creation function
+function displaySideBarMainMenu(){	
+    //Variable declaration
+    $i=$j=$actualLevel=$nextLevel=$differenceLevel=$totalRows=$totalRows2=$typeTag=0;
     $sql=$menuID=$menuName=$menuType=$menuLink=$menuIcon=$tmpStr="";
-	$hasSubmenu=false;
+    $hasSubmenu=false;
     $webOptions = array();
-	$pileTags = array();
+    $pileTags = array();
 	
 	
-	
-	//Get DB connection
-	$conn = connIntranetDB();
-	
-	
-	//Read WebMenus
-	$sql = 'SELECT OptionID, OptionName, ActLevel, MenuType, Level1,' . 
-	               'Level2, Level3, Level4, Description, WebMenuID, Icon, Link ' . 
-	       'FROM it_cat_menustemp ' .
-		   'ORDER BY OptionID';
-                       		
-	$Rows = mysqli_query($conn, $sql);
-	 
-	
-	//Fill vector with Query result
+    //Get DB connection
+    $conn = connIntranetDB();
+
+
+    //Read WebMenus from table
+    $sql = 'SELECT OptionID, OptionName, ActLevel, MenuType, Level1,' . 
+                   'Level2, Level3, Level4, Description, WebMenuID, Icon, Link ' . 
+           'FROM cat_webmenus ' .
+           'ORDER BY OptionID';
+
+    $Rows = mysqli_query($conn, $sql);
+
+
+    //Fill vector with Query result
     while ($row = mysqli_fetch_array($Rows, MYSQLI_BOTH)) {
-		$webOptions[] = $row; 		
-	}
+            $webOptions[] = $row; 		
+    }
 		
 	
     
@@ -700,97 +724,94 @@ function readMainMenu(){
     $totalRows = count($webOptions);
     if ($totalRows>0) {
 		
-		
-    
         //Display WebOptions  vector 
         for ($i = 0; $i <  ($totalRows); $i++) {
             //Getting Menu information from Vector
-			$menuID = $webOptions[$i]['OptionID'];
-			$menuName = $webOptions[$i]['OptionName'];
-			$menuType = $webOptions[$i]['MenuType'];
-			$menuIcon = $webOptions[$i]['Icon'];
-			$menuLink = $webOptions[$i]['Link'];
+            $menuID = $webOptions[$i]['OptionID'];
+            $menuName = $webOptions[$i]['OptionName'];
+            $menuType = $webOptions[$i]['MenuType'];
+            $menuIcon = $webOptions[$i]['Icon'];
+            $menuLink = $webOptions[$i]['Link'];
 			
 			
-			//If last Record
-			if ($i==($totalRows-1)){
-				//---Logic if is Last Record
-				
-				//Not has Submenu (Display single Tag)
-				$typeTag = 0;	//SingleMenu 
-				$hasSubmenu = false;
-				displayTag($menuID, $menuName, $menuType, $typeTag, $pileTags, $hasSubmenu, $menuIcon, $menuLink);
-				
-				//Empty PILE				
-				$j = 0;
-				$totalRows2 = count($pileTags);
-				while ($j<$totalRows2){
-				   //Extract & print Tag from PILE
-					echo array_pop($pileTags) . "</BR>";										                    
-					$j = $j + 1;
-				}			 
+            //If only one web option to display!
+            if ($i==($totalRows-1)){
+                //---Logic if is only one Record for display
+
+                //Not has Submenu (Display single Tag)
+                $typeTag = 0;	//SingleMenu 
+                $hasSubmenu = false;
+                //displayTag($menuID, $menuName, $menuType, $typeTag, $pileTags, $hasSubmenu, $menuIcon, $menuLink);
+                displayTag($menuName, $menuType, $pileTags, $hasSubmenu, $menuIcon, $menuLink);
+
+                //Empty PILE				
+                $j = 0;
+                $totalRows2 = count($pileTags);
+                while ($j<$totalRows2){
+                   //Extract & print Tag from PILE
+                    echo array_pop($pileTags) . "</BR>";										                    
+                    $j = $j + 1;
+                }			 
 				
 			
-			}
-			else{
-				//---Logic if NOT Last Record
+            }
+            else{
+                //---Logic if MORE that one option to display 
+
+                //Get actual and Next Level Number
+                $actualLevel = $webOptions[$i]['ActLevel'];
+                $nextLevel = $webOptions[$i+1]['ActLevel'];
+
+                //Check typeTags according the Level state
+                if ($nextLevel == $actualLevel) {
+                        //Not has Submenu (Display single Tag)
+                        $typeTag = 0;	//SingleMenu 
+                        $hasSubmenu = false;
+                        displayTag($menuName, $menuType, $pileTags, $hasSubmenu, $menuIcon, $menuLink);
+
+
+                }
+                elseif ($nextLevel > $actualLevel) {
+                        //Begin submenu (OPEN Tag)
+                        $typeTag = 1;	//OpenSubmenu 
+                        $hasSubmenu = TRUE;
+                        displayTag($menuName, $menuType, $pileTags, $hasSubmenu, $menuIcon, $menuLink);
+
+                }
+                else {
+                        //Last submenu (CLOSE Tag)
+                        $typeTag = 2;	//CloseSubmenu 
+                        $hasSubmenu = false;
+                        displayTag($menuName, $menuType, $pileTags, $hasSubmenu, $menuIcon, $menuLink);
+                }
+
 				
-				
-				//Get actual and Next Level Number
-				$actualLevel = $webOptions[$i]['ActLevel'];
-				$nextLevel = $webOptions[$i+1]['ActLevel'];
-				
-				
-				//Check typeTags according the Level state
-				if ($nextLevel == $actualLevel) {
-					//Not has Submenu (Display single Tag)
-					$typeTag = 0;	//SingleMenu 
-					$hasSubmenu = false;
-					displayTag($menuID, $menuName, $menuType, $typeTag, $pileTags, $hasSubmenu, $menuIcon, $menuLink);
-					
-					
-				}
-				elseif ($nextLevel > $actualLevel) {
-					//Begin submenu (OPEN Tag)
-					$typeTag = 1;	//OpenSubmenu 
-					$hasSubmenu = TRUE;
-					displayTag($menuID, $menuName, $menuType, $typeTag, $pileTags, $hasSubmenu, $menuIcon, $menuLink);
-					
-				}
-				else {
-					//Last submenu (CLOSE Tag)
-					$typeTag = 2;	//CloseSubmenu 
-					$hasSubmenu = false;
-					displayTag($menuID, $menuName, $menuType, $typeTag, $pileTags, $hasSubmenu, $menuIcon, $menuLink);
-				}
-				
-				
-			   //Check difference between levels
-			   // Positive difference means Jump from High Level to Less Level (Correct)
-			   // Negative difference means Jump from Less Level to High Level (Incorrect if difference is more than 1)
-			   $differenceLevel  = $actualLevel - $nextLevel;
-			   if ($differenceLevel > 0){
-				   //Positive difference (Close the jumped TAGS)
-				   $j = 1;
-				   while ($j<=$differenceLevel){
-					   //Extract & print Tag from PILE
-					   $tmpStr = array_pop($pileTags);
+                //Check difference between levels
+                // Positive difference means Jump from High Level to Less Level (Correct)
+                // Negative difference means Jump from Less Level to High Level (Incorrect if difference is more than 1)
+                $differenceLevel  = $actualLevel - $nextLevel;
+                if ($differenceLevel > 0){
+                    //Positive difference (Close the jumped TAGS)
+                    $j = 1;
+                    while ($j<=$differenceLevel){
+                        //Extract & print Tag from PILE
+                        $tmpStr = array_pop($pileTags);
                        echo $tmpStr . " ";
                        $tmpStr = array_pop($pileTags);
                        echo $tmpStr . " ";
 					   $j = $j + 1;
-				   }			   
-			   }
-			   else{
-				   //Negative difference
-				   //Display error message if difference is more than 1
-				   if (abs($differenceLevel)>1){				   
-						echo " !!!Se encontro inconsistencia en el menu!!!!!   </BR>";					
-				   }
-				   
-			   }
+                    }			   
+                }
+                else{
+                    //Negative difference
+                    //Display error message if difference is more than 1
+                    if (abs($differenceLevel)>1){				   
+                        echo " !!!Se encontro inconsistencia en el menu!!!!!   </BR>";					
+                    }
+
+                }
 		   	
-			}
+            }  //  END ---Logic if MORE that one option to display 
 			
 			 
         }//End For cicle (Display WebOptions  vector )
@@ -806,99 +827,117 @@ function readMainMenu(){
 	
 }
 
-function displayTag($menuID, $menuName, $menuType, $typeTag, array &$pileTags, $hasSubmenu,$menuIcon, $menuLink){    
+
+
+//Function Name: displayTag()
+//Description:  Procedure that display menu according the its type display certain configuration of tags. 
+//              (according the template for display web menus in layout)
+//              ---Check template in html files in asset folder for more reference.
+//Author:		Dario Rico Olivares
+//Date:			30/Julio/2016
+//
+//Parameter:	_menuID: string with the MenuID
+//		_menuName: Name of the menu
+//		_menuType: Type of Menu, there are 3 types: 
+//                          MENU: Option that have Main Menu 
+//                          SUB: Option that have SubMenu
+//                          OPT: Option that have no subMenu
+//		pileTags: vector that is passes by REFERENCE for store opened TAGs, 
+//                          in order they can close after display main menus.
+//		_hasSubmenu: boolean that indicate if hasSubmenu
+//		_menuIcon: string that store icon of menu
+//		_menuLink: string that store link of menu
+//Return:	None 
+//
+//Revision:	1.0 (30/Julio/2016) -- Creation function
+function displayTag($_menuName, $_menuType, array &$pileTags, $_hasSubmenu,$_menuIcon, $_menuLink){    
     
-	$result = "";
-	
-	//Single Option (Open&Close TAG)              
-	switch ($menuType) {
-		case 'MENU':                    
-			if ($hasSubmenu){
-				//Has submenu
-				$result = "<li class=''> ";
-				$result = $result . "<a href='#' class='dropdown-toggle'> " ;				
-				$result = $result .  "<i class='" . $menuIcon . "'></i> ";
-				$result = $result .  "<span class='menu-text'>" . $menuName . "</span> ";
-				$result = $result .  "<b class='arrow fa fa-angle-down'></b> ";
-				$result = $result .  "</a> ";
-				$result = $result .  "<b class='arrow'></b> ";				
-				$result = $result .  "<ul class='submenu'>";
-				
-				//Two Tags were opened, so add to pileTags for future closing				
-				array_push($pileTags,"  </ul> ");
-				array_push($pileTags," </li> ");
-				  
-				
-			}
-			else{				
-				//Not has submenu
-				$result = "<li class=''> ";
-				$result = $result . "<a href='" . $menuLink . "'> " ;
-				$result = $result .  "<i class='" . $menuIcon . "'></i> ";
-				$result = $result .  "<span class='menu-text'>" . $menuName . "</span> ";
-				$result = $result .  "</a> ";
-				$result = $result .  "<b class='arrow'></b> ";
-				$result = $result .  "</li> ";				
-				
-			}
-			
-			echo $result;
-			break;
-			
-	   case 'SUB':						
-			if ($hasSubmenu){
-				//Has submenu
-				$result = "<li class=''> ";
-				$result = $result . "<a href='#' class='dropdown-toggle'> " ;				
-				$result = $result .  "<i class='" . $menuIcon . "'></i> ";
-				$result = $result .   $menuName . "  ";
-				$result = $result .  "<b class='arrow fa fa-angle-down'></b> ";
-				$result = $result .  "</a> ";
-				$result = $result .  "<b class='arrow'></b> ";				
-				$result = $result .  "<ul class='submenu'>";
-				
-				//Two Tags were opened, so add to pileTags for future closing				
-				array_push($pileTags,"  </ul> ");
-				array_push($pileTags," </li> ");
-				  
-				
-			}
-			else{				
-				//Not has submenu
-				$result = "<li class=''> ";
-				$result = $result . "<a href='" . $menuLink . "'> " ;
-				$result = $result .  "<i class='" . $menuIcon . "'></i> ";
-				$result = $result .   $menuName . "  ";
-				$result = $result .  "</a> ";
-				$result = $result .  "<b class='arrow'></b> ";
-				$result = $result .  "</li> ";				
-				
-			}
-			
-			echo $result;
-			break; 
-			
-	   case 'OPT':
-			if ($hasSubmenu){
-				//Has submenu
-				$result = "Error configuracion de menus incorrecta!!!  ";				
-			}
-			else{				
-				//Not has submenu
-				$result = "<li class=''> ";
-				$result = $result . "<a href='" . $menuLink . "'> " ;
-				$result = $result .  "<i class='" . $menuIcon . "'></i> ";
-				$result = $result .   $menuName . "  ";
-				$result = $result .  "</a> ";
-				$result = $result .  "<b class='arrow'></b> ";
-				$result = $result .  "</li> ";				
-				
-			}
-			
-			
-			echo $result;
-			break;                           
-	}
+    $result = "";
+
+    //Single Option (Open&Close TAG)              
+    switch ($_menuType) {
+        case 'MENU':                    
+            if ($_hasSubmenu){
+                //Has submenu
+                $result = "<li class=''> ";
+                $result = $result . "<a href='#' class='dropdown-toggle'> " ;				
+                $result = $result .  "<i class='" . $_menuIcon . "'></i> ";
+                $result = $result .  "<span class='menu-text'>" . $_menuName . "</span> ";
+                $result = $result .  "<b class='arrow fa fa-angle-down'></b> ";
+                $result = $result .  "</a> ";
+                $result = $result .  "<b class='arrow'></b> ";				
+                $result = $result .  "<ul class='submenu'>";
+
+                //Two Tags were opened, so add to pileTags for future closing				
+                array_push($pileTags,"  </ul> ");
+                array_push($pileTags," </li> ");
+            }
+            else{				
+                //Not has submenu
+                $result = "<li class=''> ";
+                $result = $result . "<a href='" . $_menuLink . "'> " ;
+                $result = $result .  "<i class='" . $_menuIcon . "'></i> ";
+                $result = $result .  "<span class='menu-text'>" . $_menuName . "</span> ";
+                $result = $result .  "</a> ";
+                $result = $result .  "<b class='arrow'></b> ";
+                $result = $result .  "</li> ";				
+            }
+
+            echo $result;
+            break;
+
+       case 'SUB':						
+            if ($_hasSubmenu){
+                //Has submenu
+                $result = "<li class=''> ";
+                $result = $result . "<a href='#' class='dropdown-toggle'> " ;				
+                $result = $result .  "<i class='" . $_menuIcon . "'></i> ";
+                $result = $result .   $_menuName . "  ";
+                $result = $result .  "<b class='arrow fa fa-angle-down'></b> ";
+                $result = $result .  "</a> ";
+                $result = $result .  "<b class='arrow'></b> ";				
+                $result = $result .  "<ul class='submenu'>";
+
+                //Two Tags were opened, so add to pileTags for future closing				
+                array_push($pileTags,"  </ul> ");
+                array_push($pileTags," </li> ");
+
+            }
+            
+            else{				
+                //Not has submenu
+                $result = "<li class=''> ";
+                $result = $result . "<a href='" . $_menuLink . "'> " ;
+                $result = $result .  "<i class='" . $_menuIcon . "'></i> ";
+                $result = $result .   $_menuName . "  ";
+                $result = $result .  "</a> ";
+                $result = $result .  "<b class='arrow'></b> ";
+                $result = $result .  "</li> ";				
+            }
+
+            echo $result;
+            break; 
+
+       case 'OPT':
+            if ($_hasSubmenu){
+                //Has submenu
+                $result = "Error configuracion de menus incorrecta!!!  ";				
+            }
+            else{				
+                //Not has submenu
+                $result = "<li class=''> ";
+                $result = $result . "<a href='" . $_menuLink . "'> " ;
+                $result = $result .  "<i class='" . $_menuIcon . "'></i> ";
+                $result = $result .   $_menuName . "  ";
+                $result = $result .  "</a> ";
+                $result = $result .  "<b class='arrow'></b> ";
+                $result = $result .  "</li> ";				
+            }
+
+            echo $result;
+            break;       
+            
+    }
 			
 }
 

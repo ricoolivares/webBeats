@@ -14,8 +14,18 @@ error_reporting(E_ALL);
 date_default_timezone_set('America/Tijuana');
 
 /** PHPExcel_IOFactory */
-require_once dirname(__FILE__) . '/../Classes/PHPExcel/IOFactory.php';
-require_once dirname(__FILE__) . '/../Functions/functionsBeats.php';
+$pathExcelFile = $_SERVER['DOCUMENT_ROOT'];
+$pathExcelFile .= "/WebBeats/assets/excel/TemplateGames3.xlsx";
+//require_once dirname(__FILE__) . '..\Plugins\PHPExcel\IOFactory.php';
+//
+//
+//
+//require_once dirname(__FILE__) . '..\Plugins\PHPExcel\IOFactory.php';
+//require_once dirname(__FILE__) . '/webBeats/Code/Functions/functionsBeats.php';
+
+require_once("../Plugins/PHPExcel/IOFactory.php");
+require_once("../Functions/functionDB.php");
+
 
 
 
@@ -23,7 +33,7 @@ require_once dirname(__FILE__) . '/../Functions/functionsBeats.php';
 //Variable declaration
 $sheetnames = array('Hoja1','Hoja2'); 
 $inputFileType = 'Excel2007'; 
-$inputFileName = 'TemplateGames3.xlsx'; 
+$inputFileName = $pathExcelFile;
 $Games = new ArrayObject();
 
 
